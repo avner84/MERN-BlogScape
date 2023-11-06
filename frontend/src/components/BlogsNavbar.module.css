@@ -1,0 +1,22 @@
+.blogNavbar {
+    margin-top: 30px;
+    padding: 20px;
+    min-width: 550px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.blogNavbar a {
+    padding: 15px;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 6px;
+    user-select: none;
+}
+
+.blogNavbar a:hover {
+    background-color: orangered;
+    color: white;
+}

@@ -1,0 +1,56 @@
+header {
+    background: var(--secondary);
+  }
+
+  /* navbar */
+header nav {
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header nav h1 {
+    border-bottom: 3px solid var(--primary);
+  }
+
+  header nav a{
+    text-decoration: none;
+    padding: 6px;
+    border-radius: 4px;
+    color: white;
+    user-select: none;
+  }
+  
+  .logoutButton{
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    user-select: none;
+    font-size: 1rem;
+  }
+  
+
+  header nav .logo {
+    margin-right: auto;
+    padding: 0;
+  }
+
+
+  a:hover {
+    color: silver;
+  }
+
+  a.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  .logoutButton:hover{
+    background: var(--primary);
+    color: silver;
+  }
+  

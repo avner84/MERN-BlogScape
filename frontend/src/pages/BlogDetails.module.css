@@ -1,0 +1,19 @@
+.blogDetails{
+    background: rgba(24, 5, 78, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-decoration: none;
+    user-select: none;
+    max-width: 700px;
+}
+
+
+
+.notFound {
+    font-size: 24px; 
+    color: red;
+    text-align: center; 
+    margin-top: 50px;
+  }
+  

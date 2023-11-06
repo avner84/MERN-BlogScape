@@ -1,0 +1,35 @@
+
+.blogContainer{
+  margin-top: 20px;
+}
+
+.blogPost {
+    background: rgba(24, 5, 78, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-decoration: none;
+    user-select: none;
+    max-width: 700px;
+  }
+ 
+a {
+  text-decoration: none;
+}
+  .blogPost:hover {
+    background: rgba(154, 10, 29, 0.2);
+  }
+  
+  .blogTitle {
+    margin: 0;
+    color: var(--secondary);
+  }
+  
+  .blogAuthor {
+    font-size: 0.8em;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  
