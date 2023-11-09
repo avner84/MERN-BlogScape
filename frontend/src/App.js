@@ -16,7 +16,7 @@ import BlogDetails, { blogDetailsLoader } from './pages/BlogDetails'
 import MyBlogs, { myBlogsLoader } from './pages/MyBlogs'
 import BlogForm, { addBlogPostAction } from './pages/BlogForm'
 import UserProfile from './pages/user/UserProfile'
-import ChangePassword from './pages/user/ChangePassword'
+//import ChangePassword from './pages/user/ChangePassword'
 //import UserEdit, {editAction} from './pages/user/UserEdit'
 import DeletingUser from './pages/user/DeletingUser'
 
@@ -26,6 +26,7 @@ import HomeLayout from './layouts/HomeLayout'
 import ProfileLayout from './layouts/ProfileLayout';
 // import TestForm from './pages/TestForm';
 import Edit2 from './pages/user/Edit2';
+import ChangePSW, {changePasswordAction} from './pages/user/ChangePSW';
 
 
 
@@ -58,7 +59,8 @@ const router = createBrowserRouter(
         <Route index element={<UserProfile />} />
         {/* <Route path="user-edit" element={<UserEdit/>} action={editAction}/> */}
         <Route path="user-edit" element={<Edit2/>}/>
-        <Route path="change-password" element={<ChangePassword />} />
+        {/* <Route path="change-password" element={<ChangePassword />} /> */}
+        <Route path="change-password" element={<ChangePSW />} action={changePasswordAction}/>
         <Route path="delete-account" element={<DeletingUser/>} />
       </Route>
       <Route path="*" element={<NotFound />} />
