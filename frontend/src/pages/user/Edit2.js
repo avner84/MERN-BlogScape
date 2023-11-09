@@ -20,7 +20,7 @@ const Edit2 = () => {
         
         try {
             // Send the PATCH request with fetch
-            const response = await fetch('http://localhost:8080/auth/test-edit2', {
+            const response = await fetch('http://localhost:8080/auth/edit-user', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
