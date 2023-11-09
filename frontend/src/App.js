@@ -27,6 +27,7 @@ import ProfileLayout from './layouts/ProfileLayout';
 // import TestForm from './pages/TestForm';
 import Edit2 from './pages/user/Edit2';
 import ChangePSW, {changePasswordAction} from './pages/user/ChangePSW';
+import Edit3, {editUserAction} from './pages/user/Edit3';
 
 
 
@@ -58,7 +59,8 @@ const router = createBrowserRouter(
       <Route path="profile" element={<ProfileLayout />} >
         <Route index element={<UserProfile />} />
         {/* <Route path="user-edit" element={<UserEdit/>} action={editAction}/> */}
-        <Route path="user-edit" element={<Edit2/>}/>
+        {/* <Route path="user-edit" element={<Edit2/>}/> */}
+        <Route path="user-edit" element={<Edit3/>} action={editUserAction}/>
         {/* <Route path="change-password" element={<ChangePassword />} /> */}
         <Route path="change-password" element={<ChangePSW />} action={changePasswordAction}/>
         <Route path="delete-account" element={<DeletingUser/>} />

@@ -1,5 +1,5 @@
 import { Form, useActionData } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './ChangePassword.module.css';
 
 const ChangePSW = () => {
@@ -9,6 +9,11 @@ const ChangePSW = () => {
         confirmNewPassword: ''
     });
     const data = useActionData();
+    useEffect(() => {
+        if (data?.token) {
+            localStorage.setItem('token', data.token);
+        }
+    }, [data]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -57,7 +62,6 @@ const ChangePSW = () => {
                             />
                         </label>
                     </div>
-                    <input type="hidden" name="token" value={localStorage.getItem('token')} />
                     <button type="submit">Change Password</button>
                     {data && data.error && <p className={styles.error}>{data.error}</p>}
                 </Form>
@@ -100,8 +104,9 @@ export const changePasswordAction = async ({ request }) => {
             const errorData = await response.json();
             return { error: errorData.message || 'Something went wrong' };
         }
+        const responseData = await response.json();
+        return { success: true, token: responseData.token };
 
-        return { success: true };
     } catch (error) {
         return { error: error.message || 'Failed to connect to the server' };
     }
