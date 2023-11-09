@@ -8,12 +8,14 @@ const isAuth = require('../middleware/is-auth');
 router.put(
     '/signup',
     validations.signupValidations,
+    validations.handleValidationErrors,
     authController.signup
 );
 
 router.post(
     '/login',
     validations.loginValidations,
+    validations.handleValidationErrors,
     authController.login
 );
 
@@ -21,6 +23,7 @@ router.patch(
     '/change-password',
     isAuth,
     validations.changePasswordValidations,
+    validations.handleValidationErrors,
     authController.changePassword
 );
 
@@ -34,6 +37,7 @@ router.patch(
     '/edit-user',
     isAuth,
     validations.editUserValidations,
+    validations.handleValidationErrors,
     authController.edit2
 );
 

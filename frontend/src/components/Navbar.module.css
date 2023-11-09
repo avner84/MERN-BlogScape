@@ -47,6 +47,8 @@
     opacity: 0.6;
   }
 
+
+
   .navbar a.active {
     background: var(--primary);
     color: white;

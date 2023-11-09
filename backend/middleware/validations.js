@@ -1,5 +1,20 @@
-const { body } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
+
+
+exports.handleValidationErrors = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation failed.');
+        error.statusCode = 422;
+        error.data = errors.array();
+        error.message = error.data.map(e => e.msg).join('. ');
+        return next(error);
+    }
+    next();
+};
+
+
 
 exports.signupValidations = [
     body('firstName')
@@ -37,8 +52,8 @@ exports.signupValidations = [
             return true;
         })
 ];
-  
-  exports.loginValidations = [
+
+exports.loginValidations = [
     body('email')
         .trim()
         .isEmail()
@@ -50,7 +65,7 @@ exports.signupValidations = [
         .withMessage('Password must be at least 6 characters long.')
 ];
 
-exports.changePasswordValidations =[
+exports.changePasswordValidations = [
     body('currentPassword')
         .trim()
         .isLength({ min: 6 })
@@ -82,7 +97,7 @@ exports.editUserValidations = [
         .not()
         .isEmpty()
         .withMessage('Please enter your last name.'),
-        body('email')
+    body('email')
         .trim()
         .isEmail()
         .withMessage('Please enter a valid email address.')
@@ -101,7 +116,7 @@ exports.editUserValidations = [
                     });
                 }
             });
-        }),        
+        }),
     body('password')
         .trim()
         .isLength({ min: 6 })

@@ -1,20 +1,14 @@
 require('dotenv').config();
 
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const validations = require('../middleware/validations')
 
 const User = require('../models/user');
 
+
 exports.signup = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        error.message = error.data.map(e => e.msg).join('. ');
-        return next(error)
-    }
+
     const email = req.body.email;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -40,17 +34,11 @@ exports.signup = async (req, res, next) => {
 
 
 exports.login = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        error.message = error.data.map(e => e.msg).join('. ');
-        return next(error)
-    }
+
     const email = req.body.email;
     const password = req.body.password;
     let loadedUser;
+
     try {
         const user = await User.findOne({ email: email });
         if (!user) {
@@ -91,16 +79,6 @@ exports.login = async (req, res, next) => {
 };
 
 exports.editUser = async (req, res, next) => {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        // Combine error messages
-        error.message = error.data.map(e => e.msg).join('. ');
-        return next(error);
-    }
 
     // Assume userID is obtained from the verified JWT token
     const userId = req.userId;
@@ -144,17 +122,7 @@ exports.editUser = async (req, res, next) => {
 
 
 exports.changePassword = async (req, res, next) => {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        error.message = error.data.map(e => e.msg).join('. ');
-        return next(error)
-    }
 
-    console.log('Data received:', req.body);
     const userId = req.userId;
     const { currentPassword, newPassword } = req.body;
     let loadedUser;
@@ -239,19 +207,10 @@ exports.deleteUser = async (req, res, next) => {
 
 
 exports.edit2 = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        error.message = error.data.map(e => e.msg).join('. ');
-        return next(error)
-    }
-    
-    console.log('Data received:', req.body);
+
     const userId = req.userId;
     const { firstName, lastName, email, password } = req.body;
-    
+
     try {
         const user = await User.findById(userId);
         if (!user) {
@@ -260,18 +219,18 @@ exports.edit2 = async (req, res, next) => {
             return next(error);
         }
 
-       
+
         const isEqual = await bcrypt.compare(password, user.password);
         if (!isEqual) {
             const error = new Error('Wrong password!');
             error.statusCode = 401;
             throw error;
         }
-    
+
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
-        
+
         // Save the updated user to the database
         const result = await user.save();
 
@@ -302,18 +261,3 @@ exports.edit2 = async (req, res, next) => {
 
 }
 
-
-//   exports.edit2 = async (req, res, next) => {
-//     console.log(req.body); // ידפיס את גוף הבקשה לקונסול
-
-//     // דמה של עיבוד הבקשה ושליחת תגובה
-//     try {
-//         // כאן יהיה העיבוד של הבקשה, למשל שמירה במסד נתונים או עדכון נתונים
-//         // אם הכול הלך טוב, שלח תגובה חיובית
-//         res.status(200).json({ message: 'User details updated successfully!' });
-//     } catch (error) {
-//         // אם התרחשה שגיאה, שלח תגובה עם השגיאה
-//         console.error('There was an error!', error);
-//         res.status(500).json({ message: 'Failed to update user details.' });
-//     }
-//   }
