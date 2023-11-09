@@ -1,0 +1,39 @@
+/* ProfileNavbar.module.css */
+
+.profileNavbar {
+    display: flex;
+    justify-content: center;
+    background: var(--primary);
+    /* padding: 20px; */
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    /* height: 20px; */
+    
+}
+
+.profileNavbar nav {
+    display: flex;
+    align-items: center;
+    padding: 5px auto;
+}
+
+.profileNavbar a {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    color: white;
+    user-select: none;
+    margin: 0 10px;
+}
+
+.profileNavbar a.active {
+    background: var(--secondary);
+}
+
+/* You can add additional styling for hover effects or other states if needed */
+.profileNavbar a:hover {
+    background: var(--secondary);
+    opacity: 0.6;
+    /* color: var(--secondary); */
+    /* transition: background-color 0.3s ease; */
+}

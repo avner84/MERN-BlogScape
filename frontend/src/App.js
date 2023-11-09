@@ -15,10 +15,17 @@ import Blogs, { blogsLoader } from './pages/Blogs'
 import BlogDetails, { blogDetailsLoader } from './pages/BlogDetails'
 import MyBlogs, { myBlogsLoader } from './pages/MyBlogs'
 import BlogForm, { addBlogPostAction } from './pages/BlogForm'
+import UserProfile from './pages/user/UserProfile'
+import ChangePassword from './pages/user/ChangePassword'
+//import UserEdit, {editAction} from './pages/user/UserEdit'
+import DeletingUser from './pages/user/DeletingUser'
 
 // layouts
 import RootLayout from './layouts/RootLayout'
 import HomeLayout from './layouts/HomeLayout'
+import ProfileLayout from './layouts/ProfileLayout';
+// import TestForm from './pages/TestForm';
+import Edit2 from './pages/user/Edit2';
 
 
 
@@ -46,6 +53,14 @@ const router = createBrowserRouter(
       </Route>
       <Route path="login" element={<Login />} action={loginAction} />
       <Route path="signUp" element={<SignUp />} action={signUpAction} />
+
+      <Route path="profile" element={<ProfileLayout />} >
+        <Route index element={<UserProfile />} />
+        {/* <Route path="user-edit" element={<UserEdit/>} action={editAction}/> */}
+        <Route path="user-edit" element={<Edit2/>}/>
+        <Route path="change-password" element={<ChangePassword />} />
+        <Route path="delete-account" element={<DeletingUser/>} />
+      </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
   )

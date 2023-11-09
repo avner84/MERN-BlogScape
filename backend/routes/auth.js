@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth');
 const User = require('../models/user');
+const isAuth = require('../middleware/is-auth');
 
 const { body } = require('express-validator');
 
@@ -18,7 +19,7 @@ router.put(
             .not()
             .isEmpty()
             .withMessage('Please enter your last name.'),
-            body('email')
+        body('email')
             .trim()
             .isEmail()
             .withMessage('Please enter a valid email address.')
@@ -29,7 +30,7 @@ router.put(
                         return Promise.reject('E-mail address already exists, please use a different one.');
                     }
                 });
-            }),        
+            }),
         body('password')
             .trim()
             .isLength({ min: 6 })
@@ -49,33 +50,126 @@ router.put(
 router.post(
     '/login',
     [
-      body('email')
-        .trim()
-        .isEmail()
-        .withMessage('Please enter a valid email address.')
-        .normalizeEmail(),
-      body('password')
-        .trim()
-        .isLength({ min: 6 })
-        .withMessage('Password must be at least 6 characters long.')
+        body('email')
+            .trim()
+            .isEmail()
+            .withMessage('Please enter a valid email address.')
+            .normalizeEmail(),
+        body('password')
+            .trim()
+            .isLength({ min: 6 })
+            .withMessage('Password must be at least 6 characters long.')
     ],
     authController.login
-  );
+);
 
-// router.post('/login', (req, res) => {
-//     const { email, password } = req.body;
+router.post('/test-endpoint', (req, res) => {
+    console.log('Data received:', req.body);
+    res.status(200).json({ message: 'Data received successfully' });
+});
 
-//     // כאן תבצע את האימות של המשתמש
-//     if (email === 'jane.smith@example.com' && password === '123456') {
-//         res.json({
-//             email: "jane.smith@example.com",
-//             firstName: "Jane",
-//             lastName: "Smith",
-//             id: 2
-//         });
-//     } else {
-//         res.status(401).json({ message: 'Invalid email or password' });
-//     }
-// });
+router.patch('/change-password', isAuth,
+    [
+        body('currentPassword')
+            .trim()
+            .isLength({ min: 6 })
+            .withMessage('Password must be at least 6 characters long.'),
+        body('newPassword')
+            .trim()
+            .isLength({ min: 6 })
+            .withMessage('Password must be at least 6 characters long.'),
+        body('confirmNewPassword')
+            .trim()
+            .custom((value, { req }) => {
+                if (value !== req.body.newPassword) {
+                    throw new Error('Passwords do not match.');
+                }
+                return true;
+            })
+    ]
+    , authController.changePassword);
+
+router.delete('/delete-user', isAuth, authController.deleteUser)
+
+
+router.patch(
+    '/test-edit2',
+    isAuth,
+    [
+        body('firstName')
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Please enter your first name.'),
+        body('lastName')
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Please enter your last name.'),
+            body('email')
+            .trim()
+            .isEmail()
+            .withMessage('Please enter a valid email address.')
+            .normalizeEmail()
+            .custom((value, { req }) => {
+                return User.findById(req.userId).then(user => {
+                    if (user.email === value) {
+                        // האימייל זהה לאימייל הנוכחי של המשתמש, לכן אין צורך לזרוק שגיאה.
+                        return Promise.resolve();
+                    } else {
+                        // בדוק אם האימייל כבר קיים במערכת
+                        return User.findOne({ email: value }).then(userDoc => {
+                            if (userDoc) {
+                                return Promise.reject('E-mail address already exists, please use a different one.');
+                            }
+                        });
+                    }
+                });
+            }),        
+        body('password')
+            .trim()
+            .isLength({ min: 6 })
+            .withMessage('Password must be at least 6 characters long.')
+    ],
+    authController.edit2
+);
+
+
+
+
+
+//   router.patch(
+//     'edit-user',
+//     isAuth,[
+//         body('firstName')
+//             .trim()
+//             .not()
+//             .isEmpty()
+//             .withMessage('Please enter your first name.'),
+//         body('lastName')
+//             .trim()
+//             .not()
+//             .isEmpty()
+//             .withMessage('Please enter your last name.'),
+//             body('email')
+//             .trim()
+//             .isEmail()
+//             .withMessage('Please enter a valid email address.')
+//             .normalizeEmail()
+//             .custom((value, { req }) => {
+//                 return User.findOne({ email: value }).then(userDoc => {
+//                     if (userDoc) {
+//                         return Promise.reject('E-mail address already exists, please use a different one.');
+//                     }
+//                 });
+//             }),        
+//         body('password')
+//             .trim()
+//             .isLength({ min: 6 })
+//             .withMessage('Password must be at least 6 characters long.') 
+//     ],
+//     authController.editUser
+//   );
+
 
 module.exports = router;

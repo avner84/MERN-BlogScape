@@ -1,0 +1,32 @@
+.deleteUser{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+     margin: 40px auto;
+}
+
+.deleteUser h3 {
+    color: var(--secondary);
+    margin-bottom: 30px;
+  }
+
+  .deleteUserBtnsContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .deleteUserBtnsContainer button{
+    margin: 0px 20px;
+  }
+
+  .deleteUser button:hover{
+    margin: 0px 20px;
+    background-color: var(--secondary);
+  }
+
+  .error{
+    color: red;
+    font-weight: 600;
+  }

@@ -1,9 +1,9 @@
-header {
+.navbar {
     background: var(--secondary);
   }
 
   /* navbar */
-header nav {
+.navbar nav {
     padding: 20px;
     display: flex;
     gap: 16px;
@@ -12,11 +12,11 @@ header nav {
     margin: 0 auto;
   }
 
-  header nav h1 {
+  .navbar nav h1 {
     border-bottom: 3px solid var(--primary);
   }
 
-  header nav a{
+  .navbar nav a{
     text-decoration: none;
     padding: 6px;
     border-radius: 4px;
@@ -31,26 +31,30 @@ header nav {
     color: white;
     user-select: none;
     font-size: 1rem;
+    background: none;
   }
   
 
-  header nav .logo {
+  .navbar nav .logo {
     margin-right: auto;
     padding: 0;
   }
 
 
-  a:hover {
+  .navbar a:hover {
     color: silver;
+    background: var(--primary);
+    opacity: 0.6;
   }
 
-  a.active {
+  .navbar a.active {
     background: var(--primary);
     color: white;
   }
 
   .logoutButton:hover{
     background: var(--primary);
+    opacity: 0.6;
     color: silver;
   }
   
