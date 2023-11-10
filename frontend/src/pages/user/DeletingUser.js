@@ -9,15 +9,18 @@ const DeletingUser = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
 
+   // Handles the initial delete button click
   const handleDeleteClick = () => {
     setIsDeleting(true);
   };
 
+  // Handles the cancel button click
   const handleCancelClick = () => {
     setIsDeleting(false);
     setError('');
   };
 
+   // Handles the confirmation of user deletion
   const handleConfirmDelete = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -29,6 +32,7 @@ const DeletingUser = () => {
       });
 
       if (response.ok) {
+        // Clearing user data and redirecting after successful deletion
         localStorage.removeItem('token');
         setUser(null);
         navigate('/'); // Redirect to homepage

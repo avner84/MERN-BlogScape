@@ -1,102 +1,125 @@
-import { useEffect } from 'react';
-import { Form, useActionData, useNavigate } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 import { useUser } from '../../store/UserContext';
 import styles from './UserEdit.module.css';
+import { useState, useEffect } from 'react';
 
-export default function UserEdit() {
-  let data = null;
-  data = useActionData();
-  const navigate = useNavigate();
-  const { user, setUser } = useUser();
+const UserEdit = () => {
+    const { user, setUser } = useUser();
+    const data = useActionData();
 
-  useEffect(() => {
-    if (data?.user) {
-      localStorage.setItem('token', data.token);
-      setUser(data.user);
-    }
-  }, [data, navigate, setUser]);
+    //If data was returned from the request and it includes the user - 
+    //update the new token in local storage and the user details in the context.
+    useEffect(() => {
+        if (data?.user) {          
+          localStorage.setItem('token', data.token);
+          setUser(data.user);        
+        }
+      }, [data, setUser]);
 
-  if (!user) {
-    return (
-      <div className={styles.userEdit}>
-        <h2>No user found</h2>
-      </div>
-    )
-  }
-  if (data?.user) {
-    return (
-      <div className={styles.userEdit}>
-        <h3>The user information has been updated successfully</h3>
-      </div>
-    )
-
-  }
-
-  return (
-    <div className={styles.userEditForm}>
-      <h3>Edit user details</h3>
-      <Form method="post" action="/user-edit">
-        <label>
-          <span>First Name:</span>
-          <input type="text" name="firstName" defaultValue={user.firstName} required />
-        </label>
-        <label>
-          <span>Last Name:</span>
-          <input type="text" name="lastName" defaultValue={user.lastName} required />
-        </label>
-        <label>
-          <span>Email:</span>
-          <input type="email" name="email" defaultValue={user.email} required />
-        </label>
-        <label>
-          <span>Password to verify:</span>
-          <input type="password" name="password" required />
-        </label>
-        <input type="hidden" name="token" value={localStorage.getItem('token')} />
-        <button type="submit">Update details</button>
-
-        {data && data.error && <p className={styles.error}>{data.error}</p>}
-      </Form>
-    </div>
-  );
-}
-
-
-export async function editAction({ request }) {
-
-  const data = await request.formData();
-
-  const formData = {
-    firstName: data.get('firstName'),
-    lastName: data.get('lastName'),
-    email: data.get('email'),
-    password: data.get('password'),
-  };
-
-  const formToken = data.get('token');
-
-  if (formData.password.length < 6) {
-    return { error: 'Password must be over 6 chars long.' };
-  }
-
-  try {
-    const response = await fetch('http://localhost:8080/auth/edit-user', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${formToken}`,
-      },
-      body: JSON.stringify(formData)
+    const [formState, setFormState] = useState({
+        firstName: user?.firstName || '',
+        lastName: user?.lastName || '',
+        email: user?.email || '',
+        password: ''
     });
 
-    if (!response.ok) {
-      const errorResult = await response.json();
-      return { error: errorResult.message || 'Something went wrong' };
-    }
-    const { user, token } = await response.json();
-    return { user, token };
+     // Handles form input changes
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormState(prevFormState => ({
+            ...prevFormState,
+            [name]: value
+        }));
+    };
 
-  } catch (error) {
-    return { error: error.message || 'Error updating details' };
-  }
+    return (
+        <div className={styles.userEditForm}>
+            <h3>Edit user details</h3>
+            {(!user) ? (
+                <div>Loading user details...</div>
+            ) : (
+                <Form method="post">
+                    <label>
+                        <span>First Name:</span>
+                        <input
+                            type="text"
+                            name="firstName"
+                            value={formState.firstName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        <span>Last Name:</span>
+                        <input
+                            type="text"
+                            name="lastName"
+                            value={formState.lastName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        <span>Email:</span>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formState.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        <span>Password to verify:</span>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formState.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </label>
+                    <input type="hidden" name="token" value={localStorage.getItem('token')} />
+                    <button type="submit">Update details</button>
+                    {data && data.error && <p className={styles.error}>{data.error}</p>}
+                    {data && data.success && <p className={styles.success}>{data.success}</p>}
+                </Form>
+            )}
+        </div>
+    );
 }
+
+export const editUserAction = async ({ request }) => {
+    try {
+        const data = await request.formData();
+        const formData = Object.fromEntries(data);
+
+        // Retrieve the token from localStorage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('Authentication token not found. Please log in again.');
+        }
+
+       // Send the request to the server
+        const response = await fetch('http://localhost:8080/auth/edit-user', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { error: errorData.message || 'Something went wrong' };
+        }
+
+        const responseData = await response.json();
+        return { success: 'User details updated successfully!', user: responseData.user, token: responseData.token };
+    } catch (error) {
+        return { error: error.message || 'Failed to connect to the server' };
+    }
+}
+
+export default UserEdit;

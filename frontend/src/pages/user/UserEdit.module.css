@@ -54,7 +54,14 @@
     background-color: #0056b3;
   }
   
-  .error {
+  
+
+  .successMessage{
+    font-weight: 600;
+    color: var(--secondary);
+  }
+
+  .errorMessage{
+    font-weight: 600;
     color: red;
-    margin-top: 10px;
   }

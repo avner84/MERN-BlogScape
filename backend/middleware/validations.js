@@ -2,19 +2,22 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 
 
+// Middleware to handle validation errors
+
 exports.handleValidationErrors = (req, res, next) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req); // Extract validation results from the request
+     // Check if there are any validation errors
     if (!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        error.message = error.data.map(e => e.msg).join('. ');
-        return next(error);
+        const error = new Error('Validation failed.'); 
+        error.statusCode = 422; 
+        error.data = errors.array(); 
+        error.message = error.data.map(e => e.msg).join('. '); 
+        return next(error); 
     }
-    next();
+    next();  
 };
 
-
+// Validation Rule Arrays for User Operations
 
 exports.signupValidations = [
     body('firstName')
@@ -105,10 +108,10 @@ exports.editUserValidations = [
         .custom((value, { req }) => {
             return User.findById(req.userId).then(user => {
                 if (user.email === value) {
-                    // האימייל זהה לאימייל הנוכחי של המשתמש, לכן אין צורך לזרוק שגיאה.
+                    // The email is identical to the user's current email, therefore there is no need to throw an error
                     return Promise.resolve();
                 } else {
-                    // בדוק אם האימייל כבר קיים במערכת
+                    // Check if the email already exists in the system
                     return User.findOne({ email: value }).then(userDoc => {
                         if (userDoc) {
                             return Promise.reject('E-mail address already exists, please use a different one.');

@@ -38,7 +38,7 @@ router.patch(
     isAuth,
     validations.editUserValidations,
     validations.handleValidationErrors,
-    authController.edit2
+    authController.userEdit
 );
 
 
