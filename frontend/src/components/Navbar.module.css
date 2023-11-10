@@ -59,4 +59,11 @@
     opacity: 0.6;
     color: silver;
   }
+   
+
+.navbar nav .logo:hover {
+  color: silver;
+  opacity: 1;
+  background-color: var(--secondary);
   
+}

@@ -1,0 +1,18 @@
+.noUserfound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /* border: 1px solid #ccc; */
+    border-radius: 15px;
+    width: 300px;
+    margin: 40px auto;
+    user-select: none;
+    background-color: rgba(127, 255, 212, 0.25);
+
+
+}
+
+.noUserfound h2 {
+    color: var(--secondary);
+}
