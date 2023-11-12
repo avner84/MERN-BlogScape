@@ -1,19 +1,19 @@
 import { Link, useLoaderData } from 'react-router-dom';
-import demoData from '../data/db.json';
 import styles from './MyBlogs.module.css';
 
 const MyBlogs = () => {
-    const userBlogs = useLoaderData();
+    const data = useLoaderData();
+    const blogs = data.blogs;  
 
     return (
         <div className={styles.blogContainer}>
-            {userBlogs.length === 0 ? (
+            {blogs.length === 0 ? (
                 <h1>There are no blogs to display</h1>
             ) : (
                 <>
                     <h2 className={styles.myBlogsTitle}>My blogs:</h2>
-                    {userBlogs.map(blog => (
-                        <Link to={`/blog/${blog.id}`} key={blog.id}>
+                    {blogs.map(blog => (
+                        <Link to={`/blog/${blog._id}`} key={blog._id}>
                             <div className={styles.blogPost}>
                                 <h3 className={styles.blogTitle}>{blog.title}</h3>
                             </div>
@@ -26,12 +26,25 @@ const MyBlogs = () => {
 }
 
 
-export function myBlogsLoader({ params }) {
+export async function myBlogsLoader({ params }) {
+
     const userId = params.userid;
-    const userBlogs = userId ? demoData.blogs.filter(blog => blog.userId === parseInt(userId, 10)) : [];
-    return userBlogs;
+
+    try {
+        const response = await fetch(`http://localhost:8080/blog/get-blogs-by-user?userId=${userId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();   
+        return data;
+    } catch (error) {
+        console.error("Failed to load blogs:", error);
+        return []; 
+    }
 }
 
+
+  
 
 export default MyBlogs;
 

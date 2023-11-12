@@ -5,6 +5,7 @@ import { useUser } from '../../store/UserContext';
 //A page that displays the user details received from the server and stored in the context.
 const UserProfile = () => {
   const { user } = useUser();
+  console.log('user :', user);
 
 
   if (!user) {

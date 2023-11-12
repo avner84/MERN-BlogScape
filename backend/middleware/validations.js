@@ -125,3 +125,14 @@ exports.editUserValidations = [
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long.')
 ]
+
+exports.createBlogValidations =[
+    body('title')
+    .trim()
+    .isLength({ min: 10 })
+    .withMessage('Title must be over 10 chars long.'),
+    body('content')
+    .trim()
+    .isLength({ min: 30 })
+    .withMessage('Content must be over 30 chars long.')
+]

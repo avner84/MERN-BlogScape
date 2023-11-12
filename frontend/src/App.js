@@ -14,7 +14,7 @@ import Login, { loginAction } from './pages/Login'
 import Blogs, { blogsLoader } from './pages/Blogs'
 import BlogDetails, { blogDetailsLoader } from './pages/BlogDetails'
 import MyBlogs, { myBlogsLoader } from './pages/MyBlogs'
-import BlogForm, { addBlogPostAction } from './pages/BlogForm'
+import BlogForm, { addBlogAction } from './pages/BlogForm'
 
 //profile pages
 import UserProfile from './pages/user/UserProfile'
@@ -47,7 +47,7 @@ const router = createBrowserRouter(
         <Route
           path="create-blog"
           element={<BlogForm />}
-          action={addBlogPostAction}
+          action={addBlogAction}
         />
       </Route>
       <Route path="login" element={<Login />} action={loginAction} />

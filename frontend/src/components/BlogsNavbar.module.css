@@ -1,22 +1,33 @@
 .blogNavbar {
-    margin-top: 30px;
-    padding: 20px;
-    min-width: 550px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;   
+    margin: 30px auto;   
+}
+
+.blogNavbar nav {
+    display: flex;
+    align-items: center;
+    gap: 100px;
+    
 }
 
 .blogNavbar a {
-    padding: 15px;
+    background: var(--primary);
     text-decoration: none;
-    color: inherit;
-    background-color: var(--primary);
+    padding: 10px 15px;
+    border-radius: 4px;
     color: white;
-    border-radius: 6px;
     user-select: none;
 }
+
+.blogNavbar a.active {
+    background-color: orangered;
+}
+
 
 .blogNavbar a:hover {
     background-color: orangered;
     color: white;
+    opacity: 0.6;
+    transition: background-color 0.3s ease;
 }

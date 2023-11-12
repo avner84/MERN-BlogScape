@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-//const blogRoutes = require('./routes/blog');
+const blogRoutes = require('./routes/blog');
 const authRoutes = require('./routes/auth');
 
 const app = express();
@@ -23,8 +23,9 @@ app.use((req, res, next) => {
   next();
 });
 
-//app.use('/blog', blogRoutes);
+
 app.use('/auth', authRoutes);
+app.use('/blog', blogRoutes);
 
 
 // Error Handling Middleware: Handles any errors that occur in the application

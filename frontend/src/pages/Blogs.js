@@ -1,41 +1,52 @@
 import { useLoaderData } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import demoData from '../data/db.json';
 import styles from './Blogs.module.css';
-import BlogsNavbar from '../components/BlogsNavbar';
-import { useUser } from '../store/UserContext';
+
 
 const Blogs = () => {
     const data = useLoaderData();
-    const blogs = data.blogs;
-    const users = data.users;
-    const { user } = useUser();
-
-    const findAuthorName = (userId) => {
-        const user = users.find(user => user.id === userId);
-        return user ? `${user.firstName} ${user.lastName}` : 'Unknown author';
-    }
+    const blogs = data.blogs;  
+   
 
     return (
         <>
-        {user&&<BlogsNavbar/>}
+        
         <div className={styles.blogContainer}>
-            {blogs.map(blog => (
-                <Link to={`/blog/${blog.id}`} key={blog.id}>
-                    <div className={styles.blogPost}>
-                        <h3 className={styles.blogTitle}>{blog.title}</h3>
-                        <p className={styles.blogAuthor}>author: {findAuthorName(blog.userId)}</p>  
-                    </div>
-                </Link>
-            ))}
+            {blogs && blogs.length > 0 ? (
+                blogs.map(blog => (
+                    <Link to={`/blog/${blog._id}`} key={blog._id}>
+                        <div className={styles.blogPost}>
+                            <h3 className={styles.blogTitle}>{blog.title}</h3>
+                             <p className={styles.blogAuthor}>author: {blog.creator.firstName} {blog.creator.lastName}</p>  
+                        </div>
+                    </Link>
+                ))
+            ) : (
+                <h2>No blogs were found to display</h2>
+            )}
         </div>
-    </>
+        </>
     )
+    
+    
 }
 
+    
 
-export function blogsLoader() {
-    return demoData;
+
+export async function blogsLoader() {
+    try {
+        const response = await fetch('http://localhost:8080/blog/get-blogs');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Failed to load blogs:", error);
+        return []; 
+    }
 }
+
 
 export default Blogs;
