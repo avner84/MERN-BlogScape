@@ -1,7 +1,7 @@
 import { Form, useActionData, useNavigate } from "react-router-dom";
 import styles from './Login.module.css';
 import { useEffect } from 'react';
-import { useUser } from '../store/UserContext';
+import { useUser } from '../../store/UserContext';
 
 export default function LoginForm() {
   const data = useActionData();

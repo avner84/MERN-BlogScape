@@ -1,7 +1,7 @@
 import { Form, useActionData } from "react-router-dom";
 import styles from './BlogForm.module.css';
 import { useEffect, useState } from 'react';
-import { useUser } from '../store/UserContext';
+import { useUser } from '../../store/UserContext';
 
 
 export default function BlogForm() {
@@ -11,14 +11,13 @@ export default function BlogForm() {
 
   useEffect(() => {
     if (data && data.blog) {
-      console.log('Blog added:', data.blog);
-      setBlogAdded(true); // עדכון המצב במקרה של הצלחה
+      setBlogAdded(true); // Updating the status in case of success
     }
   }, [data]);
 
 
   return (
-    !blogAdded ? (
+    !blogAdded ? ( //Before the blog is added, the form for adding a blog is displayed
       <div className={styles.newBlogPost}>
         <h3>Add New Blog Post</h3>
         <Form method="post">
@@ -31,6 +30,7 @@ export default function BlogForm() {
             <textarea name="content" required />
           </label>
 
+          {/* To save the retrieval of user details through an additional request to the server's database, the transfer of the user's first name and last name is carried out using a hidden Input in the form, and these arrive along with the rest of the form details through the body */}
           <input type="hidden" name="firstName" value={user.firstName} />
           <input type="hidden" name="lastName" value={user.lastName} />
 
@@ -40,9 +40,8 @@ export default function BlogForm() {
         </Form>
       </div>
     ) : (
+      // In case of success, the following message will be displayed
       <div className={styles.blogAddedSuccess}>
-
-        
         <h3>Blog Added Successfully!</h3>
       </div>
     )
@@ -61,11 +60,7 @@ export const addBlogAction = async ({ request }) => {
     lastName: data.get('lastName') || 'No last name found'
   };
 
-  // Retrieve the token from localStorage
-
-
-  console.log(formData);
-
+  // Validation:
   if (formData.title.length < 10) {
     return { error: 'Title must be over 10 chars long.' };
   }
@@ -75,7 +70,7 @@ export const addBlogAction = async ({ request }) => {
   }
 
   try {
-
+ // Retrieve the token from localStorage
     const tokenFromClient = localStorage.getItem('token');
     if (!tokenFromClient) {
       throw new Error('Authentication token not found. Please log in again.');

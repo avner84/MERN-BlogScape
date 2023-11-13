@@ -4,14 +4,14 @@ import styles from './DeletingBlog.module.css';
 
 
 
-const DeletingBlog = ({handleCancelDeleteMode, blogId}) => {
+const DeletingBlog = ({onCancelDeleteMode, blogId}) => {
   const [isBlogDeleted, setIsBlogDeleted] = useState(false);
   const [error, setError] = useState('');
   
 
-  // Handles the cancel button click
+  // Handles the cancel delete mode
   const handleCancelClick = () => {
-    handleCancelDeleteMode();
+    onCancelDeleteMode();
   };
 
   const handleConfirmDelete = async () => {
@@ -36,6 +36,7 @@ const DeletingBlog = ({handleCancelDeleteMode, blogId}) => {
 
   return (
     <div className={styles.deleteBlog}>
+      {/* "As long as the deletion is not completed, a message will be displayed with an option to cancel and an option for final confirmation." */}
       {!isBlogDeleted ? (
         <>
           <h3>Are you sure you want to delete the blog?</h3>
@@ -46,6 +47,7 @@ const DeletingBlog = ({handleCancelDeleteMode, blogId}) => {
           {error && <p className={styles.error}>{error}</p>}
         </>
       ) : (
+        //If the deletion was completed successfully, the following message will be displayed
         <h3>The blog has been successfully deleted</h3>
       )
       }

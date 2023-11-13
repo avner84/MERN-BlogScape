@@ -9,14 +9,12 @@ import { UserProvider } from './store/UserContext';
 
 // pages
 import NotFound from './pages/NotFound'
-import SignUp, { signUpAction } from './pages/SignUp'
-import Login, { loginAction } from './pages/Login'
-import Blogs, { blogsLoader } from './pages/Blogs'
-import BlogDetails, { blogDetailsLoader } from './pages/BlogDetails'
-import MyBlogs, { myBlogsLoader } from './pages/MyBlogs'
-import BlogForm, { addBlogAction } from './pages/BlogForm'
-
-//profile pages
+import SignUp, { signUpAction } from './pages/auth/SignUp'
+import Login, { loginAction } from './pages/auth/Login'
+import Blogs, { blogsLoader } from './pages/blog/Blogs'
+import BlogDetails, { blogDetailsLoader } from './pages/blog/BlogDetails'
+import MyBlogs, { myBlogsLoader } from './pages/blog/MyBlogs'
+import BlogForm, { addBlogAction } from './pages/blog/BlogForm'
 import UserProfile from './pages/user/UserProfile'
 import ChangePassword, {changePasswordAction} from './pages/user/ChangePassword';
 import UserEdit, {editUserAction} from './pages/user/UserEdit';
@@ -26,6 +24,8 @@ import DeletingUser from './pages/user/DeletingUser'
 import RootLayout from './layouts/RootLayout'
 import HomeLayout from './layouts/HomeLayout'
 import ProfileLayout from './layouts/ProfileLayout';
+
+// component
 import DeletingBlog from './components/blog/DeletingBlog';
 
 

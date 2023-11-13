@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 
 const ProfileNavbar = () => {
-
     return (
         <header className={styles.profileNavbar}>
             <nav>
