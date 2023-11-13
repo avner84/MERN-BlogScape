@@ -28,6 +28,20 @@ router.get(
     blogController.getBlogById
 )
 
+router.delete(
+    '/delete-blog',    
+    isAuth,
+    blogController.deleteBlog
+)
+
+router.put(
+    '/edit-blog',    
+    isAuth,
+    validations.createBlogValidations,
+    validations.handleValidationErrors,
+    blogController.updateBlog
+)
+
 
 
 module.exports = router;

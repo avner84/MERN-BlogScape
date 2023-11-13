@@ -1,0 +1,32 @@
+.deleteBlog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+     margin: 40px auto;
+}
+
+.deleteBlog h3 {
+    color: var(--secondary);
+    margin-bottom: 30px;
+  }
+
+  .deleteBlogBtnsContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .deleteBlogBtnsContainer button{
+    margin: 0px 20px;
+  }
+
+  .deleteBlog button:hover{
+    margin: 0px 20px;
+    background-color: var(--secondary);
+  }
+
+  .error{
+    color: red;
+    font-weight: 600;
+  }

@@ -58,7 +58,7 @@
   margin-top: 10px;
 }
 
-.blogNavbar {
+/* .blogNavbar {
   margin-top: 30px;
   padding: 20px;
   min-width: 550px;
@@ -82,7 +82,7 @@ button {
 button:hover {
   background-color: orangered;
   color: white;
-}
+} */
 
 .blogAddedSuccess h3 {
   text-align: center;

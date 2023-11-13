@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styles from './HomeLayout.module.css'
-import BlogsNavbar from '../components/BlogsNavbar'
+import BlogsNavbar from '../components/navbars/BlogsNavbar'
 import { useUser } from '../store/UserContext';
 
 export default function HomeLayout() {

@@ -1,4 +1,4 @@
-import { Form, useActionData, Link } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 import styles from './BlogForm.module.css';
 import { useEffect, useState } from 'react';
 import { useUser } from '../store/UserContext';
@@ -42,10 +42,7 @@ export default function BlogForm() {
     ) : (
       <div className={styles.blogAddedSuccess}>
 
-        <div className={styles.blogNavbar}>
-          <button onClick={()=>{setBlogAdded(false)}}>Create a new blog</button>
-          {user && <Link to={`/my-blogs/${user.id}`} >My blogs</Link>}
-        </div>
+        
         <h3>Blog Added Successfully!</h3>
       </div>
     )

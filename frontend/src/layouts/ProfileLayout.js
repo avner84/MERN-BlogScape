@@ -1,5 +1,5 @@
 import styles from './ProfileLayout.module.css';
-import ProfileNavbar from "../components/ProfileNavbar"
+import ProfileNavbar from "../components/navbars/ProfileNavbar"
 import { Outlet } from "react-router-dom";
 import { useUser } from '../store/UserContext';
 

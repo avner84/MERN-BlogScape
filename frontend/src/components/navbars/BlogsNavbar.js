@@ -1,6 +1,6 @@
 import styles from './BlogsNavbar.module.css';
 import { NavLink } from "react-router-dom";
-import { useUser } from '../store/UserContext';
+import { useUser } from '../../store/UserContext';
 
 const BlogsNavbar = () => {
   const { user } = useUser();

@@ -26,6 +26,7 @@ import DeletingUser from './pages/user/DeletingUser'
 import RootLayout from './layouts/RootLayout'
 import HomeLayout from './layouts/HomeLayout'
 import ProfileLayout from './layouts/ProfileLayout';
+import DeletingBlog from './components/blog/DeletingBlog';
 
 
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter(
           path="create-blog"
           element={<BlogForm />}
           action={addBlogAction}
+        />
+        <Route
+        path='delete-blog'
+        element={<DeletingBlog/> }
         />
       </Route>
       <Route path="login" element={<Login />} action={loginAction} />
